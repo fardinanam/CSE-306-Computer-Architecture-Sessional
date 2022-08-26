@@ -1,0 +1,2 @@
+addi $t1,$zero,7
+sub $t3,$t1,$t2
