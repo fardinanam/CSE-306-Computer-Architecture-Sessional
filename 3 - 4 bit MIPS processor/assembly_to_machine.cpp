@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include <bitset>
 
 // t0 5 t1 1 t2 2 t3 3 t4 4 zero 0
 #define T0 "0001"
@@ -96,7 +97,7 @@ string toHex(string str) {
 }
 
 void pushbackLabels(string line){
-    
+
     vector<string> v= split(line);
     // cout<<v[0];
     if(v[0]=="sub"||v[0]=="ori"||v[0]=="bneq"||v[0]=="addi"||
@@ -163,7 +164,7 @@ string convert(string line) {
         else if(item=="j") instruction+="1110";
         else if(item=="nor") instruction+="1111";
     }
-    
+
 
     // R format : sub, or, and, add, nor
     if((instruction=="0000")||(instruction=="0101")||(instruction=="1000")||(instruction=="1011")||(instruction=="1111")) {
@@ -246,12 +247,21 @@ string convert(string line) {
         // instruction+=" "; //for debugging
 
         int const_int=stoi(v[3]);
-        string const_str="";
+        cout<<const_int<<endl;
+//        string const_str="";
 
-        char str_32[32];
-        sprintf(str_32, "%032b", const_int);
-        for(int i = 28; i < 32; i++)
-            const_str += str_32[i];
+        string const_str = bitset<4>(const_int).to_string();
+
+
+//        char str_32[32];
+//        sprintf(str_32, "%032b", const_int);
+//        for(int i = 28; i < 32; i++)
+//        {
+//            cout<<str_32[i];
+//            const_str += str_32[i];
+//        }
+//        cout<<endl;
+
 
         instruction+=const_str;
 
@@ -290,12 +300,7 @@ string convert(string line) {
 
 
         int const_int=(bAddress-lineCount-1)*INSTRUCTION_SIZE; //+1?
-        string const_str="";
-
-        char str_32[32];
-        sprintf(str_32, "%032b", const_int);
-        for(int i = 28; i < 32; i++)
-            const_str += str_32[i];
+        string const_str = bitset<4>(const_int).to_string();
 
         instruction+=const_str;
 
@@ -328,12 +333,7 @@ string convert(string line) {
         // instruction+=" "; //for debugging
 
         int const_int=stoi(constant)*INSTRUCTION_SIZE;
-        string const_str="";
-
-        char str_32[32];
-        sprintf(str_32, "%032b", const_int);
-        for(int i = 28; i < 32; i++)
-            const_str += str_32[i];
+        string const_str = bitset<4>(const_int).to_string();
 
         instruction+=const_str;
 
@@ -355,16 +355,9 @@ string convert(string line) {
 
         // cout << jAddress;
         int const_int=jAddress*INSTRUCTION_SIZE;
-        string const_str="";
-
-        char str_32[32];
-        sprintf(str_32, "%032b", const_int);
-        for(int i = 24; i < 32; i++)
-            const_str += str_32[i];
+        string const_str = bitset<8>(const_int).to_string();
 
         instruction+=const_str;
-
-        // instruction+=" "; //for debugging
 
         instruction+="0000";
 
@@ -398,8 +391,8 @@ int main ()
         while (getline (fin,line)) {
             // lineCount++;
             string str_bin=convert(line);
-            string str_hex=toHex(str_bin);
-            fout<<str_hex<<endl;
+//            string str_hex=toHex(str_bin);
+            fout<<str_bin<<endl;
             lineCount++;
         }
         fin.close();
